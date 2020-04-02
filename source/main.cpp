@@ -67,25 +67,49 @@ int main (int /*argc*/, char **/*argv*/) {
   // setup.set_WW_mu_only();
   setup.set_ZZ_mu_only();
   
-  // Set all chiral cross sections as free parameters
-  setup.free_chiral_xsection("singleWplussemileptonic", PREW::GlobalVar::Chiral::eLpR);
-  setup.free_chiral_xsection("singleWplussemileptonic", PREW::GlobalVar::Chiral::eRpL);
-  setup.free_chiral_xsection("singleWplussemileptonic", PREW::GlobalVar::Chiral::eRpR);
-  setup.free_chiral_xsection("singleWminussemileptonic", PREW::GlobalVar::Chiral::eLpR);
-  setup.free_chiral_xsection("singleWminussemileptonic", PREW::GlobalVar::Chiral::eRpL);
-  setup.free_chiral_xsection("singleWminussemileptonic", PREW::GlobalVar::Chiral::eLpL);
-  // setup.free_chiral_xsection("WWsemileptonic", PREW::GlobalVar::Chiral::eLpR);
-  // setup.free_chiral_xsection("WWsemileptonic", PREW::GlobalVar::Chiral::eRpL);
-  setup.free_chiral_xsection("WW_semilep_MuAntiNu", PREW::GlobalVar::Chiral::eLpR);
-  setup.free_chiral_xsection("WW_semilep_MuAntiNu", PREW::GlobalVar::Chiral::eRpL);
-  setup.free_chiral_xsection("WW_semilep_AntiMuNu", PREW::GlobalVar::Chiral::eLpR);
-  setup.free_chiral_xsection("WW_semilep_AntiMuNu", PREW::GlobalVar::Chiral::eRpL);
-  setup.free_chiral_xsection("ZZsemileptonic", PREW::GlobalVar::Chiral::eLpR);
-  setup.free_chiral_xsection("ZZsemileptonic", PREW::GlobalVar::Chiral::eRpL);
-  setup.free_chiral_xsection("Zhadronic", PREW::GlobalVar::Chiral::eLpR);
-  setup.free_chiral_xsection("Zhadronic", PREW::GlobalVar::Chiral::eRpL);
-  setup.free_chiral_xsection("Zleptonic", PREW::GlobalVar::Chiral::eLpR);
-  setup.free_chiral_xsection("Zleptonic", PREW::GlobalVar::Chiral::eRpL);
+  // // Set chiral cross sections as free parameters (Here: use total xs and asymm instead)
+  // setup.free_chiral_xsection("singleWplussemileptonic", PREW::GlobalVar::Chiral::eLpR);
+  
+  // Set asymmetries and total chiral cross sections scalings as free parameters
+  setup.free_asymmetry(
+    "singleWminussemileptonic",
+    PREW::GlobalVar::Chiral::eLpR,
+    PREW::GlobalVar::Chiral::eRpL,
+    PREW::GlobalVar::Chiral::eLpL
+  );
+  setup.free_asymmetry(
+    "singleWplussemileptonic",
+    PREW::GlobalVar::Chiral::eRpL,
+    PREW::GlobalVar::Chiral::eLpR,
+    PREW::GlobalVar::Chiral::eRpR
+  );
+  setup.free_asymmetry(
+    "WW_semilep_MuAntiNu", 
+    PREW::GlobalVar::Chiral::eLpR, PREW::GlobalVar::Chiral::eRpL
+  );
+  setup.free_asymmetry(
+    "WW_semilep_AntiMuNu", 
+    PREW::GlobalVar::Chiral::eLpR, PREW::GlobalVar::Chiral::eRpL
+  );
+  setup.free_asymmetry(
+    "ZZsemileptonic", 
+    PREW::GlobalVar::Chiral::eLpR, PREW::GlobalVar::Chiral::eRpL
+  );
+  setup.free_asymmetry(
+    "Zhadronic", 
+    PREW::GlobalVar::Chiral::eLpR, PREW::GlobalVar::Chiral::eRpL
+  );
+  setup.free_asymmetry(
+    "Zleptonic", 
+    PREW::GlobalVar::Chiral::eLpR, PREW::GlobalVar::Chiral::eRpL
+  );
+  setup.free_total_chiral_xsection("singleWminussemileptonic");
+  setup.free_total_chiral_xsection("singleWplussemileptonic");
+  setup.free_total_chiral_xsection("WW_semilep_MuAntiNu");
+  setup.free_total_chiral_xsection("WW_semilep_AntiMuNu");
+  setup.free_total_chiral_xsection("ZZsemileptonic");
+  setup.free_total_chiral_xsection("Zhadronic");
+  setup.free_total_chiral_xsection("Zleptonic");
   
   spdlog::info("Finalizing linking info.");
   setup.complete_setup(); // This must come last in linking setup
