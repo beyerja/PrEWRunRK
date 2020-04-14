@@ -4,13 +4,36 @@ set(CMAKE_CXX_STANDARD 17)
 project(PrEWRunRK) # Project name
 
 # Find necessary external libraries
-find_library( PrEW PrEW_lib HINTS ../PrEW/build/source/prew REQUIRED )
-find_library( PrEWUtils PrEWUtils HINTS ../PrEWUtils/lib REQUIRED )
-find_library( SPDLOG_LIB spdlog HINTS ../PrEW/external/spdlog/build )
+find_library( 
+  PrEW PrEW 
+  HINTS 
+    ../PrEW/lib # On my local computer
+    /afs/desy.de/group/flc/pool/beyerjac/TGCAnalysis/PrEW/lib # On the NAF
+  REQUIRED 
+)
+find_library( 
+  PrEWUtils PrEWUtils 
+  HINTS 
+    ../PrEWUtils/lib 
+    /afs/desy.de/group/flc/pool/beyerjac/TGCAnalysis/PrEWUtils/lib
+  REQUIRED 
+)
+find_library( 
+  spdlog spdlog 
+  HINTS 
+    ../PrEW/external/spdlog/build 
+    /afs/desy.de/group/flc/pool/beyerjac/TGCAnalysis/PrEW/PrEW/external/spdlog/build 
+  REQUIRED
+)
+
+# Find installation directories and set include paths accordingly
+get_filename_component(PrEW_lib_dir ${PrEW} DIRECTORY)
+get_filename_component(PrEWUtils_lib_dir ${PrEWUtils} DIRECTORY)
+get_filename_component(spdlog_lib_dir ${spdlog} DIRECTORY)
 include_directories(
-  ../PrEW/source/prew/include
-  ../PrEW/external/spdlog/include
-  ../PrEWUtils/source/include
+  ${PrEW_lib_dir}/../source/prew/include
+  ${PrEWUtils_lib_dir}/../source/include
+  ${spdlog_lib_dir}/../include
 )
 
 # Find external packages
@@ -47,7 +70,7 @@ target_compile_options(
 target_link_libraries(${BINARY} PUBLIC 
   ${PrEWUtils}
   ${PrEW}
-  ${SPDLOG_LIB} # Logging
+  ${spdlog} # Logging
   ROOT::Minuit2 # Minimization
 )
 
