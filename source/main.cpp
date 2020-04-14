@@ -14,7 +14,7 @@ int main (int /*argc*/, char **/*argv*/) {
   int energy = 250;
   int n_threads = 3;
   int n_toys = 10;
-  std::string minimizers = "Combined";
+  std::string minimizers = "Combined(1000000,1000000,0.00001)";
   std::string output_path = "../output/fit_results.out";
     
   spdlog::info("Start test.");
