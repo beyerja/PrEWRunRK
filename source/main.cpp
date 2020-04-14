@@ -23,9 +23,9 @@ int main (int /*argc*/, char **/*argv*/) {
   PrEWUtils::Setups::RKDistrSetup setup {};
   
   spdlog::info("Add files and energies.");
-  setup.add_input_file("../../PrEW/testdata/RK_examplefile_500_250_2018_04_03.root");
-  setup.add_input_file("/home/jakob/Documents/DESY/MountPoints/DUSTMount/TGCAnalysis/SampleProduction/WW_charge_separated/distributions/combined/Distribution_250GeV_WW_semilep_MuAntiNu.root");
-  setup.add_input_file("/home/jakob/Documents/DESY/MountPoints/DUSTMount/TGCAnalysis/SampleProduction/WW_charge_separated/distributions/combined/Distribution_250GeV_WW_semilep_AntiMuNu.root");
+  setup.add_input_file("/afs/desy.de/group/flc/pool/beyerjac/TGCAnalysis/PrEW/testdata/RK_examplefile_500_250_2018_04_03.root");
+  setup.add_input_file("/nfs/dust/ilc/group/ild/beyerjac/TGCAnalysis/SampleProduction/WW_charge_separated/distributions/combined/Distribution_250GeV_WW_semilep_MuAntiNu.root");
+  setup.add_input_file("/nfs/dust/ilc/group/ild/beyerjac/TGCAnalysis/SampleProduction/WW_charge_separated/distributions/combined/Distribution_250GeV_WW_semilep_AntiMuNu.root");
   setup.add_energy( energy );
 
   spdlog::info("Selecting distributions.");
