@@ -22,7 +22,7 @@ find_library(
   spdlog spdlog 
   HINTS 
     ../PrEW/external/spdlog/build 
-    /afs/desy.de/group/flc/pool/beyerjac/TGCAnalysis/PrEW/PrEW/external/spdlog/build 
+    /afs/desy.de/group/flc/pool/beyerjac/TGCAnalysis/PrEW/external/spdlog/build 
   REQUIRED
 )
 
