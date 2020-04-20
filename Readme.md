@@ -27,6 +27,16 @@ cd bin && ./PrEWRunRK && cd ..
 This will produce an output file in the `output` directory.
 It is a plain text file that stores some information about the results of the fits
 
+
+### Running it on the BIRD cluster
+
+The executable can also be run on the BIRD cluster using the HTCondor scheduler.
+
+```sh
+cd macros && ./run_on_cluster.sh [--cpus=n_cpus] && cd ..
+```
+With the ```--cpus=n_cpus``` the number of cpus used on the BIRD cluster can be set.
+
 ### The source code
 
 The source code is in `source/main.cpp`.
@@ -50,7 +60,3 @@ The notebook can also be run without openening a browser window using
 cd notebook && jupyter nbconvert --to notebook --inplace --execute ResultNotebook.ipynb
 ```
 Text outputs (which would normally be visible in the browser window) can be found in the `ResultNotebook.ipynb` file.
-
-
-<!-- TODO TODO TODO THE NOTEBOOK => Section on how to run it, what needs to be installed for it to work, how to change it -->
-<!-- TODO TODO TODO REMOVE OUTPUT FROM NOTEBOOK BEFORE COMMITTING -->
