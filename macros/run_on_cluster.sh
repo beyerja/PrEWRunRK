@@ -69,7 +69,7 @@ fi
 executable_path="${home_folder}/bin/PrEWRunRK"
 recompile=false
 
-if [ -f "${executable_path}}" ]; then
+if [ -f "${executable_path}" ]; then
   if [ "${REBUILD}" = true ]; then 
     recompile=true
   fi
