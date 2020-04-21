@@ -3,6 +3,7 @@
 #include "Output/Printer.h"
 
 // Includes from PrEWUtils
+#include "DataHelp/BinSelector.h"
 #include "Runners/ParallelRunner.h"
 #include "Setups/RKDistrSetup.h"
 
@@ -16,6 +17,9 @@ int main (int /*argc*/, char **/*argv*/) {
   int n_toys = 10;
   std::string minimizers = "Combined(1000000,1000000,0.00001)";
   std::string output_path = "../output/fit_results.out";
+  
+  // Minimum SM-prediction a bin must have to be considered
+  double bin_cutoff_value = 10; 
     
   spdlog::info("Start test.");
   
@@ -114,9 +118,15 @@ int main (int /*argc*/, char **/*argv*/) {
   spdlog::info("Finalizing linking info.");
   setup.complete_setup(); // This must come last in linking setup
 
+  spdlog::info("Set up the bin selector.");
+  PrEWUtils::DataHelp::BinSelector bin_selector(
+    bin_cutoff_value, setup.get_pars()
+  );
+
   spdlog::info("Create runner (incl. setting up toy generator).");
   PrEWUtils::Runners::ParallelRunner runner ( setup, minimizers );
-
+  runner.set_bin_selector( bin_selector );
+  
   spdlog::info("Run toys.");
   auto results = runner.run_toy_fits( energy, n_toys, n_threads );
   
