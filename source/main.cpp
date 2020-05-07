@@ -72,40 +72,40 @@ int main (int /*argc*/, char **/*argv*/) {
   setup.set_ZZ_mu_only();
   
   // // Set chiral cross sections as free parameters (Here: use total xs and asymm instead)
-  // setup.free_chiral_xsection("singleWplussemileptonic", PREW::GlobalVar::Chiral::eLpR);
+  // setup.free_chiral_xsection("singleWplussemileptonic", PrEW::GlobalVar::Chiral::eLpR);
   
   // Set asymmetries and total chiral cross sections scalings as free parameters
   setup.free_asymmetry(
     "singleWminussemileptonic",
-    PREW::GlobalVar::Chiral::eLpR,
-    PREW::GlobalVar::Chiral::eRpL,
-    PREW::GlobalVar::Chiral::eLpL
+    PrEW::GlobalVar::Chiral::eLpR,
+    PrEW::GlobalVar::Chiral::eRpL,
+    PrEW::GlobalVar::Chiral::eLpL
   );
   setup.free_asymmetry(
     "singleWplussemileptonic",
-    PREW::GlobalVar::Chiral::eRpL,
-    PREW::GlobalVar::Chiral::eLpR,
-    PREW::GlobalVar::Chiral::eRpR
+    PrEW::GlobalVar::Chiral::eRpL,
+    PrEW::GlobalVar::Chiral::eLpR,
+    PrEW::GlobalVar::Chiral::eRpR
   );
   setup.free_asymmetry(
     "WW_semilep_MuAntiNu", 
-    PREW::GlobalVar::Chiral::eLpR, PREW::GlobalVar::Chiral::eRpL
+    PrEW::GlobalVar::Chiral::eLpR, PrEW::GlobalVar::Chiral::eRpL
   );
   setup.free_asymmetry(
     "WW_semilep_AntiMuNu", 
-    PREW::GlobalVar::Chiral::eLpR, PREW::GlobalVar::Chiral::eRpL
+    PrEW::GlobalVar::Chiral::eLpR, PrEW::GlobalVar::Chiral::eRpL
   );
   setup.free_asymmetry(
     "ZZsemileptonic", 
-    PREW::GlobalVar::Chiral::eLpR, PREW::GlobalVar::Chiral::eRpL
+    PrEW::GlobalVar::Chiral::eLpR, PrEW::GlobalVar::Chiral::eRpL
   );
   setup.free_asymmetry(
     "Zhadronic", 
-    PREW::GlobalVar::Chiral::eLpR, PREW::GlobalVar::Chiral::eRpL
+    PrEW::GlobalVar::Chiral::eLpR, PrEW::GlobalVar::Chiral::eRpL
   );
   setup.free_asymmetry(
     "Zleptonic", 
-    PREW::GlobalVar::Chiral::eLpR, PREW::GlobalVar::Chiral::eRpL
+    PrEW::GlobalVar::Chiral::eLpR, PrEW::GlobalVar::Chiral::eRpL
   );
   setup.free_total_chiral_xsection("singleWminussemileptonic");
   setup.free_total_chiral_xsection("singleWplussemileptonic");
@@ -134,7 +134,7 @@ int main (int /*argc*/, char **/*argv*/) {
   spdlog::info(results.at(0));
   
   spdlog::info("Write results to: {}", output_path);
-  PREW::Output::Printer printer (output_path);
+  PrEW::Output::Printer printer (output_path);
   printer.new_setup( energy, runner.get_data_connector() );
   printer.add_fits( results );
   printer.write();
