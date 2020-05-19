@@ -15,11 +15,12 @@ int main (int /*argc*/, char **/*argv*/) {
   int energy = 250;
   int n_threads = 3;
   int n_toys = 10;
-  std::string minimizers = "Combined(1000000,1000000,0.00001)";
+  std::string minuit_minimizers = "Combined(1000000,1000000,0.00001)";
+  std::string prew_minimizer = "PoissonNLL";
   std::string output_path = "../output/fit_results.out";
   
   // Minimum SM-prediction a bin must have to be considered
-  double bin_cutoff_value = 10; 
+  // double bin_cutoff_value = 10; 
     
   spdlog::info("Start test.");
   
@@ -118,14 +119,18 @@ int main (int /*argc*/, char **/*argv*/) {
   spdlog::info("Finalizing linking info.");
   setup.complete_setup(); // This must come last in linking setup
 
-  spdlog::info("Set up the bin selector.");
-  PrEWUtils::DataHelp::BinSelector bin_selector(
-    bin_cutoff_value, setup.get_pars()
-  );
-
   spdlog::info("Create runner (incl. setting up toy generator).");
-  PrEWUtils::Runners::ParallelRunner runner ( setup, minimizers );
-  runner.set_bin_selector( bin_selector );
+  PrEWUtils::Runners::ParallelRunner runner ( 
+    setup, 
+    minuit_minimizers, 
+    prew_minimizer 
+  );
+  
+  // spdlog::info("Set up the bin selector.");
+  // PrEWUtils::DataHelp::BinSelector bin_selector(
+  //   bin_cutoff_value, setup.get_pars()
+  // );
+  // runner.set_bin_selector( bin_selector );
   
   spdlog::info("Run toys.");
   auto results = runner.run_toy_fits( energy, n_toys, n_threads );
