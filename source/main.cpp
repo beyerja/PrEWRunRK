@@ -14,8 +14,8 @@ int main (int /*argc*/, char **/*argv*/) {
   
   int energy = 250;
   int n_threads = 3;
-  int n_toys = 10;
-  std::string minuit_minimizers = "Combined(1000000,1000000,0.00001)";
+  int n_toys = 12;
+  std::string minuit_minimizers = "Combined(1000000,1000000,0.001)";
   std::string prew_minimizer = "PoissonNLL";
   std::string output_path = "../output/fit_results.out";
   
@@ -76,38 +76,42 @@ int main (int /*argc*/, char **/*argv*/) {
   // setup.free_chiral_xsection("singleWplussemileptonic", PrEW::GlobalVar::Chiral::eLpR);
   
   // Set asymmetries and total chiral cross sections scalings as free parameters
-  setup.free_asymmetry(
+  setup.free_asymmetry_3xs(
     "singleWminussemileptonic",
     PrEW::GlobalVar::Chiral::eLpR,
     PrEW::GlobalVar::Chiral::eRpL,
     PrEW::GlobalVar::Chiral::eLpL
   );
-  setup.free_asymmetry(
+  setup.free_asymmetry_3xs(
     "singleWplussemileptonic",
     PrEW::GlobalVar::Chiral::eRpL,
     PrEW::GlobalVar::Chiral::eLpR,
     PrEW::GlobalVar::Chiral::eRpR
   );
-  setup.free_asymmetry(
+  setup.free_asymmetry_2xs(
     "WW_semilep_MuAntiNu", 
     PrEW::GlobalVar::Chiral::eLpR, PrEW::GlobalVar::Chiral::eRpL
   );
-  setup.free_asymmetry(
+  setup.free_asymmetry_2xs(
     "WW_semilep_AntiMuNu", 
     PrEW::GlobalVar::Chiral::eLpR, PrEW::GlobalVar::Chiral::eRpL
   );
-  setup.free_asymmetry(
+  setup.free_asymmetry_2xs(
     "ZZsemileptonic", 
     PrEW::GlobalVar::Chiral::eLpR, PrEW::GlobalVar::Chiral::eRpL
   );
-  setup.free_asymmetry(
+  setup.free_asymmetry_2xs(
     "Zhadronic", 
-    PrEW::GlobalVar::Chiral::eLpR, PrEW::GlobalVar::Chiral::eRpL
+    PrEW::GlobalVar::Chiral::eLpR, PrEW::GlobalVar::Chiral::eRpL,
+    "Ae"
   );
-  setup.free_asymmetry(
+  setup.free_asymmetry_2xs(
     "Zleptonic", 
-    PrEW::GlobalVar::Chiral::eLpR, PrEW::GlobalVar::Chiral::eRpL
+    PrEW::GlobalVar::Chiral::eLpR, PrEW::GlobalVar::Chiral::eRpL,
+    "Ae"
   );
+  setup.free_2f_final_state_asymmetry("Zhadronic");
+  setup.free_2f_final_state_asymmetry("Zleptonic");
   setup.free_total_chiral_xsection("singleWminussemileptonic");
   setup.free_total_chiral_xsection("singleWplussemileptonic");
   setup.free_total_chiral_xsection("WW_semilep_MuAntiNu");
