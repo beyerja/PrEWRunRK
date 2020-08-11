@@ -18,9 +18,6 @@ int main (int /*argc*/, char **/*argv*/) {
   std::string minuit_minimizers = "Combined(1000000,1000000,0.001)";
   std::string prew_minimizer = "PoissonNLL";
   std::string output_path = "../output/fit_results.out";
-  
-  // Minimum SM-prediction a bin must have to be considered
-  // double bin_cutoff_value = 10; 
     
   spdlog::info("Start test.");
   
@@ -31,17 +28,22 @@ int main (int /*argc*/, char **/*argv*/) {
   setup.add_input_file("/afs/desy.de/group/flc/pool/beyerjac/TGCAnalysis/PrEW/testdata/RK_examplefile_500_250_2018_04_03.root");
   setup.add_input_file("/nfs/dust/ilc/group/ild/beyerjac/TGCAnalysis/SampleProduction/WW_charge_separated/distributions/combined/Distribution_250GeV_WW_semilep_MuAntiNu.root");
   setup.add_input_file("/nfs/dust/ilc/group/ild/beyerjac/TGCAnalysis/SampleProduction/WW_charge_separated/distributions/combined/Distribution_250GeV_WW_semilep_AntiMuNu.root");
+  setup.add_input_file("/nfs/dust/ilc/group/ild/beyerjac/TGCAnalysis/SampleProduction/Z_2f_separated/PrEW_inputs/Z2f_separated_cosTheta_distributions.root");
   setup.add_energy( energy );
 
   spdlog::info("Selecting distributions.");
   setup.use_distr("singleWplussemileptonic");
   setup.use_distr("singleWminussemileptonic");
-  // setup.use_distr("WWsemileptonic");
   setup.use_distr("WW_semilep_MuAntiNu");
   setup.use_distr("WW_semilep_AntiMuNu");
-  setup.use_distr("ZZsemileptonic");
-  setup.use_distr("Zhadronic");
-  setup.use_distr("Zleptonic");
+  setup.use_distr("Zuds_81to101");
+  setup.use_distr("Zuds_180to275");
+  setup.use_distr("Zcc_81to101");
+  setup.use_distr("Zcc_180to275");
+  setup.use_distr("Zbb_81to101");
+  setup.use_distr("Zbb_180to275");
+  setup.use_distr("Zmumu_81to101");
+  setup.use_distr("Zmumu_180to275");
   
   spdlog::info("Setting up linking info.");
   
@@ -66,14 +68,7 @@ int main (int /*argc*/, char **/*argv*/) {
   setup.add_pol_config("e+p+", energy, "ePol+", "pPol+", "+", "+", 0.05);
   
   // Take cTGCs into account in fit
-  setup.activate_cTGCs();
-  
-  // Make sure WW & ZZ have correct normalisations
-  // setup.set_WW_mu_only();
-  setup.set_ZZ_mu_only();
-  
-  // // Set chiral cross sections as free parameters (Here: use total xs and asymm instead)
-  // setup.free_chiral_xsection("singleWplussemileptonic", PrEW::GlobalVar::Chiral::eLpR);
+  setup.activate_cTGCs("linear");
   
   // Set asymmetries and total chiral cross sections scalings as free parameters
   setup.free_asymmetry_3xs(
@@ -84,8 +79,8 @@ int main (int /*argc*/, char **/*argv*/) {
   );
   setup.free_asymmetry_3xs(
     "singleWplussemileptonic",
-    PrEW::GlobalVar::Chiral::eRpL,
     PrEW::GlobalVar::Chiral::eLpR,
+    PrEW::GlobalVar::Chiral::eRpL,
     PrEW::GlobalVar::Chiral::eRpR
   );
   setup.free_asymmetry_2xs(
@@ -96,29 +91,49 @@ int main (int /*argc*/, char **/*argv*/) {
     "WW_semilep_AntiMuNu", 
     PrEW::GlobalVar::Chiral::eLpR, PrEW::GlobalVar::Chiral::eRpL
   );
+  
   setup.free_asymmetry_2xs(
-    "ZZsemileptonic", 
-    PrEW::GlobalVar::Chiral::eLpR, PrEW::GlobalVar::Chiral::eRpL
-  );
-  setup.free_asymmetry_2xs(
-    "Zhadronic", 
+    "Zbb_81to101", 
     PrEW::GlobalVar::Chiral::eLpR, PrEW::GlobalVar::Chiral::eRpL,
-    "Ae"
+    "Ae_Zpole"
   );
   setup.free_asymmetry_2xs(
-    "Zleptonic", 
+    "Zmumu_81to101", 
     PrEW::GlobalVar::Chiral::eLpR, PrEW::GlobalVar::Chiral::eRpL,
-    "Ae"
+    "Ae_Zpole"
   );
-  setup.free_2f_final_state_asymmetry("Zhadronic");
-  setup.free_2f_final_state_asymmetry("Zleptonic");
+  setup.free_asymmetry_2xs(
+    "Zbb_180to275", 
+    PrEW::GlobalVar::Chiral::eLpR, PrEW::GlobalVar::Chiral::eRpL,
+    "Ae_highQ2"
+  );
+  setup.free_asymmetry_2xs(
+    "Zmumu_180to275", 
+    PrEW::GlobalVar::Chiral::eLpR, PrEW::GlobalVar::Chiral::eRpL,
+    "Ae_highQ2"
+  );
+  
+  setup.free_2f_final_state_asymmetry("Zbb_81to101");
+  setup.free_2f_final_state_asymmetry("Zmumu_81to101");
+  setup.free_2f_final_state_asymmetry("Zbb_180to275");
+  setup.free_2f_final_state_asymmetry("Zmumu_180to275");
+  
   setup.free_total_chiral_xsection("singleWminussemileptonic");
   setup.free_total_chiral_xsection("singleWplussemileptonic");
   setup.free_total_chiral_xsection("WW_semilep_MuAntiNu");
   setup.free_total_chiral_xsection("WW_semilep_AntiMuNu");
-  setup.free_total_chiral_xsection("ZZsemileptonic");
-  setup.free_total_chiral_xsection("Zhadronic");
-  setup.free_total_chiral_xsection("Zleptonic");
+  setup.free_total_chiral_xsection("Zuds_81to101");
+  setup.free_total_chiral_xsection("Zcc_81to101");
+  setup.free_total_chiral_xsection("Zbb_81to101");
+  setup.free_total_chiral_xsection("Zmumu_81to101");
+  setup.free_total_chiral_xsection("Zuds_180to275");
+  setup.free_total_chiral_xsection("Zcc_180to275");
+  setup.free_total_chiral_xsection("Zbb_180to275");
+  setup.free_total_chiral_xsection("Zmumu_180to275");
+  
+  setup.create_costheta_acceptance_box("MuonAcceptance", 0, 1.6);
+  setup.use_costheta_acceptance_box("MuonAcceptance", "Zmumu_81to101");
+  setup.use_costheta_acceptance_box("MuonAcceptance", "Zmumu_180to275");
   
   spdlog::info("Finalizing linking info.");
   setup.complete_setup(); // This must come last in linking setup
@@ -129,12 +144,6 @@ int main (int /*argc*/, char **/*argv*/) {
     minuit_minimizers, 
     prew_minimizer 
   );
-  
-  // spdlog::info("Set up the bin selector.");
-  // PrEWUtils::DataHelp::BinSelector bin_selector(
-  //   bin_cutoff_value, setup.get_pars()
-  // );
-  // runner.set_bin_selector( bin_selector );
   
   spdlog::info("Run toys.");
   auto results = runner.run_toy_fits( energy, n_toys, n_threads );
