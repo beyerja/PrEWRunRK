@@ -131,7 +131,7 @@ int main (int /*argc*/, char **/*argv*/) {
   setup.free_total_chiral_xsection("Zbb_180to275");
   setup.free_total_chiral_xsection("Zmumu_180to275");
   
-  setup.create_costheta_acceptance_box("MuonAcceptance", 0, 1.6);
+  setup.create_costheta_acceptance_box("MuonAcceptance", 0, 1.9);
   setup.use_costheta_acceptance_box("MuonAcceptance", "Zmumu_81to101");
   setup.use_costheta_acceptance_box("MuonAcceptance", "Zmumu_180to275");
   
