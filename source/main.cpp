@@ -135,6 +135,9 @@ int main (int /*argc*/, char **/*argv*/) {
   setup.use_costheta_acceptance_box("MuonAcceptance", "Zmumu_81to101");
   setup.use_costheta_acceptance_box("MuonAcceptance", "Zmumu_180to275");
   
+  setup.constant_efficiency("Zbb_81to101", 0.3);
+  // setup.constrain_constant_efficiency("Zbb_81to101", 0.3, 0.001);
+  
   spdlog::info("Finalizing linking info.");
   setup.complete_setup(); // This must come last in linking setup
 
